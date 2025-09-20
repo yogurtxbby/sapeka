@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Redirecionando…</title>
+  <style>
+    :root{
+      --pink:#ff2d9b;        /* barra/ícone */
+      --pink-soft:#ffe3f1;   /* detalhes suaves */
+      --txt:#111;
+      --bg:#fff;
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0;
+      background:var(--bg);
+      color:var(--txt);
+      font-family:system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,Cantarell,"Helvetica Neue",Arial,sans-serif;
+      display:grid;
+      place-items:center;
+    }
+    .wrap{
+      width:min(520px,92vw);
+      text-align:center;
+    }
+    .tg-icon{
+      width:84px; height:84px;
+      margin:8px auto 18px;
+      display:block;
+      filter: drop-shadow(0 4px 14px rgba(255,45,155,.25));
+    }
+    h1{
+      font-size:clamp(18px,2.6vw,22px);
+      font-weight:700;
+      margin:0 0 12px;
+    }
+    p{
+      margin:0 0 22px;
+      opacity:.75;
+    }
+    .bar{
+      width:100%;
+      height:14px;
+      background:var(--pink-soft);
+      border-radius:99px;
+      overflow:hidden;
+      box-shadow: inset 0 1px 2px rgba(17,17,17,.06);
+      position:relative;
+    }
+    .fill{
+      height:100%;
+      width:0%;
+      background:var(--pink);
+      border-radius:inherit;
+      animation:load 2.5s ease-in-out forwards;
+    }
+    /* brilho sutil correndo na barra */
+    .fill::after{
+      content:"";
+      position:absolute; inset:0;
+      background:linear-gradient(90deg, transparent 0%, rgba(255,255,255,.25) 50%, transparent 100%);
+      transform:translateX(-100%);
+      animation:shine 1.4s linear infinite;
+      mix-blend-mode:soft-light;
+    }
+    @keyframes load { to { width:100%; } }
+    @keyframes shine { from { transform:translateX(-100%); } to { transform:translateX(100%); } }
+
+    .hint{
+      margin-top:12px;
+      font-size:13px;
+      opacity:.6;
+    }
+    .link{
+      display:inline-block;
+      margin-top:10px;
+      font-size:13px;
+      text-decoration:none;
+      color:var(--pink);
+      border-bottom:1px dashed currentColor;
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap" role="status" aria-live="polite">
+    <!-- Ícone do Telegram (SVG) em rosa -->
+    <svg class="tg-icon" viewBox="0 0 240 240" aria-hidden="true">
+      <!-- círculo de fundo suave -->
+      <circle cx="120" cy="120" r="115" fill="var(--pink-soft)"/>
+      <!-- círculo principal -->
+      <circle cx="120" cy="120" r="95" fill="var(--pink)"/>
+      <!-- “aviãozinho” do Telegram -->
+      <path d="M173.7 76.3c3.1-1.2 5.6 2.4 3.6 5l-22.5 28.4c-1.1 1.4-2.7 2.3-4.4 2.5l-49.4 6.6c-2 .3-2.7 2.8-1.1 4l12.4 9.1c1.7 1.2 3.9 1.5 5.8.7l27.9-11.8c2.1-.9 4.4 1 3.7 3.2l-9.1 30.3c-.7 2.4-3.6 3.3-5.5 1.7l-19.6-16.2c-1.6-1.3-3.8-1.6-5.7-.8L88 155.4c-2.5 1-5.1-1.1-4.6-3.8l13.1-65c.4-2.1 2-3.8 4.1-4.4l73.1-20.9z"
+            fill="#fff"/>
+    </svg>
+
+    <h1>Te redirecionando…</h1>
+    <p>Isso leva só um instante. Se não acontecer, use o link abaixo.</p>
+
+    <div class="bar" aria-label="Barra de progresso de redirecionamento">
+      <div class="fill"></div>
+    </div>
+
+    <div class="hint" id="eta">Concluindo em 2–3 segundos</div>
+    <a id="fallback" class="link" href="#" rel="nofollow">Ir agora</a>
+  </div>
+
+  <script>
+    const DEFAULT_URL = "https://t.me/setorspekabot?=start=FNV";
+    const params = new URLSearchParams(location.search);
+    const TARGET_URL = "https://t.me/setorspekabot?=start=FNV";
+    const a = document.getElementById("fallback");
+    a.href = TARGET_URL;
+    const fill = document.querySelector(".fill");
+    const go = () => location.replace(TARGET_URL);
+    fill.addEventListener("animationend", () => setTimeout(go, 200));
+    setTimeout(go, 5000);
+  </script>
+</body>
+</html>
