@@ -57,16 +57,16 @@
       const valorRandom = planos[Math.floor(Math.random() * planos.length)];
 
       // Verifica se já disparou nesse navegador
-      if (!localStorage.getItem(key)) {
+     // if (!localStorage.getItem(key)) {
         // Marca como enviado (não dispara mais de uma vez)
-        localStorage.setItem(key, 'true');
+        //localStorage.setItem(key, 'true');
 
         // Dispara o evento Purchase
         fbq('track', 'Purchase', {
           value: valorRandom,
           currency: 'BRL'
         }, { eventID: eventId });
-      }
+    //  }
     } catch (e) {
       console.error('Erro ao disparar Purchase:', e);
     }
